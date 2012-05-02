@@ -19,7 +19,7 @@ cumddply(data, equality.variables, inequality.variables, func)
   Data frame with cumulative results combined across splits
 }
 \examples{
-library('cumddply')
+library('cumplyr')
 
 data(rt.data)
 

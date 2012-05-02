@@ -1,8 +1,8 @@
 #!/bin/bash
 
-rm cumddply_*.tar.gz
-rm -rf cumddply.Rcheck
+rm cumplyr_*.tar.gz
+rm -rf cumplyr.Rcheck
 R CMD BUILD .
-R CMD CHECK cumddply_*.tar.gz
-rm -rf cumddply.Rcheck
-R CMD INSTALL cumddply_*.tar.gz
+R CMD CHECK cumplyr_*.tar.gz
+rm -rf cumplyr.Rcheck
+R CMD INSTALL cumplyr_*.tar.gz

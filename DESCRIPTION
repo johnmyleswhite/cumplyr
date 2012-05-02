@@ -1,4 +1,4 @@
-Package: cumddply
+Package: cumplyr
 Type: Package
 Title: Extends ddply to allow calculation of cumulative quantities.
 Version: 0.1-1

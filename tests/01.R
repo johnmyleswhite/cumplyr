@@ -1,4 +1,4 @@
-library('cumddply')
+library('cumplyr')
 
 x <- 1:3
 y <- 2:4
