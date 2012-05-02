@@ -1,0 +1,9 @@
+Package: cumddply
+Type: Package
+Title: Extends ddply to allow calculation of cumulative quantities.
+Version: 0.1-1
+Date: 2012-05-02
+Author: John Myles White
+Maintainer: John Myles White <jmw@johnmyleswhite.com>
+Description: Extends ddply to allow calculation of cumulative quantities.
+License: MIT
