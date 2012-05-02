@@ -19,4 +19,6 @@ Compute a running mean within each subset of trials in the current block using a
                         c('Trial'),
                         function (df) {with(df, mean(RT))})
 
+    names(results) <- c('Subject', 'Block', 'Trial', 'CumulativeMeanRT')
+    
     print(results)
