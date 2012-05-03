@@ -10,7 +10,7 @@ iddply <- function(data,
                      lower.bound.variables,
                      upper.bound.variables,
                      names(norm.ball.variables))
-  
+    
   # For all constraining variables, calculate the unique, sorted values of that variable.
   # Place these into an environment.
   local.env <- new.env()
@@ -21,9 +21,9 @@ iddply <- function(data,
   
   # Find Cartesian product of all unqiue, sorted values of all variables
   cartesian.product <- cartesian_product(all.variables, envir = local.env)
-    
+  
   # Iterate over elements of the Cartesian product
-  results <- data.frame()
+  results <- data.frame(stringsAsFactors = FALSE)
   
   for (row.index in 1:nrow(cartesian.product))
   {
@@ -31,29 +31,36 @@ iddply <- function(data,
     
     for (variable in equality.variables)
     {
+      #print('Equality tests')
       local.data <- subset(local.data, get(variable, local.data) == cartesian.product[row.index, variable])
     }
     
     for (variable in lower.bound.variables)
     {
+      #print('Lower bound tests')
       local.data <- subset(local.data, get(variable, local.data) >= cartesian.product[row.index, variable])
     }
     
     for (variable in upper.bound.variables)
     {
+      #print('Upper bound tests')
       local.data <- subset(local.data, get(variable, local.data) <= cartesian.product[row.index, variable])
     }
     
     for (variable in names(norm.ball.variables))
     {
       # Implement norm here, i.e. <= target + r, >= target - r.
+      # Currently using L2 norm.
+      #print('Norm ball tests')      
       local.data <- subset(local.data,
                            (get(variable, local.data) - cartesian.product[row.index, variable])^2 <= norm.ball.variables[[variable]]^2)
     }
     
-    # Add row of new data to results containging value of function and current element from Cartesian product    
+    # Add row of new data to results containging value of function and current element from Cartesian product
+    # This fails on factors.	
     results <- rbind(results, cbind(cartesian.product[row.index, ], func(local.data)))
   }
   
+  names(results) <- c(all.variables, paste('Var', seq_len(ncol(results) - length(all.variables)), sep = ''))
   return(results)
 }

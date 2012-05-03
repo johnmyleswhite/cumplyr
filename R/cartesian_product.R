@@ -15,11 +15,13 @@ cartesian_product <- function(variable.names, envir = parent.frame())
                                     length(get(variable, envir))
                                   }))
     current.length <- length(get(variable.names[i], envir))
-    res[, i] <- rep(get(variable.names[i], envir),
+	# This fails for factors, which are not pure vectors.
+	# Let's see if this solution works.
+    res[, i] <- rep(as.vector(get(variable.names[i], envir)),
                     size / successor.size,
                     each = successor.size / current.length)
   }
-  res <- data.frame(res)
+  res <- data.frame(res, stringsAsFactors = FALSE)
   names(res) <- variable.names
   return(res)
 }
