@@ -1,9 +1,5 @@
 # An Extension of plyr to Overlapping Data Problems
 
-Simple implementations of extensions to plyr functions that use a more general version of the split-apply-combine strategy that permits splitting the data into sets that overlap. In particular, the current function, `cumddply`, allows splitting data into overlapping, sequential sets so that cumulative quantities like running means can be calculated.
-
-The next extension after this is to extend to bounded regions about the current constraints for performing, for example, many kernel calculations on splits of the data.
-
 # Usage Example
 
 Compute a running mean within each subset of trials in the current block using all trials before the current trial:
@@ -22,3 +18,53 @@ Compute a running mean within each subset of trials in the current block using a
     names(results) <- c('Subject', 'Block', 'Trial', 'CumulativeMeanRT')
     
     print(results)
+
+# Second Usage Example
+
+I'm planning to remove the `cumddply` function soon and only provide a single `iddply` function that handle all the variations on inequality constraints that seem worth using. The second usage example below shows this newer approach:
+
+    library('cumplyr')
+
+    data <- data.frame(Time = 1:5, Value = seq(1, 9, by = 2))
+
+    iddply(data,
+           equality.variables = c('Time'),
+           lower.bound.variables = c(),
+           upper.bound.variables = c(),
+           norm.ball.variables = list(),
+           func = function (df) {with(df, mean(Value))})
+
+    iddply(data,
+           equality.variables = c(),
+           lower.bound.variables = c('Time'),
+           upper.bound.variables = c(),
+           norm.ball.variables = list(),
+           func = function (df) {with(df, mean(Value))})
+
+    iddply(data,
+           equality.variables = c(),
+           lower.bound.variables = c(),
+           upper.bound.variables = c('Time'),
+           norm.ball.variables = list(),
+           func = function (df) {with(df, mean(Value))})
+
+    iddply(data,
+           equality.variables = c(),
+           lower.bound.variables = c(),
+           upper.bound.variables = c(),
+           norm.ball.variables = list('Time' = 1),
+           func = function (df) {with(df, mean(Value))})
+
+    iddply(data,
+           equality.variables = c(),
+           lower.bound.variables = c(),
+           upper.bound.variables = c(),
+           norm.ball.variables = list('Time' = 2),
+           func = function (df) {with(df, mean(Value))})
+
+    iddply(data,
+           equality.variables = c(),
+           lower.bound.variables = c(),
+           upper.bound.variables = c(),
+           norm.ball.variables = list('Time' = 5),
+           func = function (df) {with(df, mean(Value))})
