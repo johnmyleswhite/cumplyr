@@ -16,7 +16,7 @@ iddply <- function(data,
   local.env <- new.env()
   for (variable in all.variables)
   {
-    assign(variable, sort(unique(get(variable, data))), env = local.env)
+    local.env[[variable]] <- sort(unique(get(variable, data)))
   }
   
   # Find Cartesian product of all unqiue, sorted values of all variables
@@ -31,33 +31,24 @@ iddply <- function(data,
     
     for (variable in equality.variables)
     {
-      #print('Equality tests')
-      local.data <- subset(local.data, get(variable, local.data) == cartesian.product[row.index, variable])
+      local.data <- local.data[local.data[, variable] == cartesian.product[row.index, variable], ]
     }
     
     for (variable in lower.bound.variables)
     {
-      #print('Lower bound tests')
-      local.data <- subset(local.data, get(variable, local.data) >= cartesian.product[row.index, variable])
+      local.data <- local.data[local.data[, variable] >= cartesian.product[row.index, variable], ]
     }
     
     for (variable in upper.bound.variables)
     {
-      #print('Upper bound tests')
-      local.data <- subset(local.data, get(variable, local.data) <= cartesian.product[row.index, variable])
+      local.data <- local.data[local.data[, variable] <= cartesian.product[row.index, variable], ]
     }
     
     for (variable in names(norm.ball.variables))
     {
-      # Implement norm here, i.e. <= target + r, >= target - r.
-      # Currently using L2 norm.
-      #print('Norm ball tests')      
-      local.data <- subset(local.data,
-                           (get(variable, local.data) - cartesian.product[row.index, variable])^2 <= norm.ball.variables[[variable]]^2)
+      local.data <- local.data[(local.data[, variable] - cartesian.product[row.index, variable])^2 <= norm.ball.variables[[variable]]^2, ]
     }
     
-    # Add row of new data to results containging value of function and current element from Cartesian product
-    # This fails on factors.	
     results <- rbind(results, cbind(cartesian.product[row.index, ], func(local.data)))
   }
   
