@@ -4,8 +4,9 @@
 
 cartesian_product <- function(variable.names, envir = parent.frame())
 {
-  size <- prod(sapply(variable.names,
-                      function (variable) {length(get(variable, envir))}))
+  size <- prod(vapply(variable.names,
+                      function (variable) {length(get(variable, envir))},
+					  1))
   res <- matrix(NA, ncol = length(variable.names), nrow = size)
   for (i in rev(1:length(variable.names)))
   {
