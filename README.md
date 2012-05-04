@@ -10,18 +10,16 @@ Compute a running mean within each subset of trials in the current block using a
 
     print(rt.data)
     
-    results <- cumddply(rt.data,
-                        c('Subject', 'Block'),
-                        c('Trial'),
-                        function (df) {with(df, mean(RT))})
+    results <- iddply(rt.data,
+                      equality.variables = c('Subject', 'Block'),
+                      upper.bound.variables = c('Trial'),
+                      func = function (df) {with(df, mean(RT))})
 
     names(results) <- c('Subject', 'Block', 'Trial', 'CumulativeMeanRT')
     
     print(results)
 
 # Second Usage Example
-
-I'm planning to remove the `cumddply` function soon and only provide a single `iddply` function that handle all the variations on inequality constraints that seem worth using. The second usage example below shows this newer approach:
 
     library('cumplyr')
 

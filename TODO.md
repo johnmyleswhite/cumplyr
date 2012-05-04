@@ -9,3 +9,8 @@
 * Try using data.table to add indices on all subsetting columns.
 
 * Cartesian product may be much larger than is "necessary": i.e. redundant columns
+
+# Benchmarking
+
+* Generate data set of performance of code at time of each commit on several benchmarks.
+* For each benchmark, demonstrate how performance depends on problem size.
