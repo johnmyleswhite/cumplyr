@@ -27,29 +27,31 @@ iddply <- function(data,
   
   for (row.index in 1:nrow(cartesian.product))
   {
-    local.data <- data
+    indices <- list()
     
     for (variable in equality.variables)
     {
-      local.data <- local.data[local.data[, variable] == cartesian.product[row.index, variable], ]
+      indices[[variable]] <- which(data[, variable] == cartesian.product[row.index, variable])
     }
     
     for (variable in lower.bound.variables)
     {
-      local.data <- local.data[local.data[, variable] >= cartesian.product[row.index, variable], ]
+      indices[[variable]] <- which(data[, variable] >= cartesian.product[row.index, variable])
     }
     
     for (variable in upper.bound.variables)
     {
-      local.data <- local.data[local.data[, variable] <= cartesian.product[row.index, variable], ]
+      indices[[variable]] <- which(data[, variable] <= cartesian.product[row.index, variable])
     }
     
     for (variable in names(norm.ball.variables))
     {
-      local.data <- local.data[(local.data[, variable] - cartesian.product[row.index, variable])^2 <= norm.ball.variables[[variable]]^2, ]
+      indices[[variable]] <- which((data[, variable] - cartesian.product[row.index, variable])^2 <= norm.ball.variables[[variable]]^2)
     }
     
-    results <- rbind(results, cbind(cartesian.product[row.index, ], func(local.data)))
+    index.set <- Reduce(intersect, indices)
+    
+    results <- rbind(results, cbind(cartesian.product[row.index, ], func(data[index.set, ])))
   }
   
   names(results) <- c(all.variables, paste('Var', seq_len(ncol(results) - length(all.variables)), sep = ''))

@@ -14,3 +14,8 @@
 
 * Generate data set of performance of code at time of each commit on several benchmarks.
 * For each benchmark, demonstrate how performance depends on problem size.
+
+# Algorithms
+
+* Try storing list of indices rather than building up actual subsets.
+* Is there a way to do this that cuts down search time with each additional variable?
