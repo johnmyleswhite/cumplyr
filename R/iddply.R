@@ -19,11 +19,14 @@ iddply <- function(data,
     local.env[[variable]] <- sort(unique(get(variable, data)))
   }
   
-  # Find Cartesian product of all unqiue, sorted values of all variables
+  # Find Cartesian product of all unique, sorted values of all variables
   cartesian.product <- cartesian_product(all.variables, envir = local.env)
   
   # Iterate over elements of the Cartesian product
-  results <- data.frame(stringsAsFactors = FALSE)
+  results <- cartesian.product
+  output <- func(data)
+  output.col.size <- ncol(output)
+  results <- cbind(results, output)
   
   for (row.index in 1:nrow(cartesian.product))
   {
@@ -51,7 +54,7 @@ iddply <- function(data,
     
     index.set <- Reduce(intersect, indices)
     
-    results <- rbind(results, cbind(cartesian.product[row.index, ], func(data[index.set, ])))
+    results[row.index, (ncol(cartesian.product) + 1):ncol(results)] <- func(data[index.set, ])
   }
   
   names(results) <- c(all.variables, paste('Var', seq_len(ncol(results) - length(all.variables)), sep = ''))

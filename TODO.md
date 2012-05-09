@@ -19,3 +19,7 @@
 
 * Try storing list of indices rather than building up actual subsets.
 * Is there a way to do this that cuts down search time with each additional variable?
+
+* Try out memoization. Store results comparisons so that items matching A == 'X' are maintained.
+
+* Remove use of `rbind()`.
