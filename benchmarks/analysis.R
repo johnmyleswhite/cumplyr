@@ -9,5 +9,5 @@ ggplot(subset(benchmarks, Benchmark == 'benchmark02(N)'),
   geom_line() +
   scale_y_log10()
 ggplot(subset(benchmarks, Benchmark == 'benchmark02(N)'),
-       aes(x = ProblemSize, y = Elapsed, group = Time, color = Time)) +
+       aes(x = ProblemSize, y = Elapsed, group = Commit, color = Commit)) +
   geom_line()
