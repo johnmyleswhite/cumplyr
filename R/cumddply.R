@@ -8,7 +8,7 @@ cumddply <- function(data, equality.variables, inequality.variables, func)
   local.env <- new.env()
   for (variable in all.variables)
   {
-    assign(variable, sort(unique(get(variable, data))), env = local.env)
+    assign(variable, sort(unique(get(variable, data))), envir = local.env)
   }
   
   # Find Cartesian product of all unqiue, sorted values of all variables
